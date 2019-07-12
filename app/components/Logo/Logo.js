@@ -4,7 +4,7 @@ import {
   View, Text, Keyboard, Animated, Platform, StyleSheet,
 } from 'react-native';
 
-import styles from './Styles';
+import styles from './styles';
 
 const ANIMATION_DURATION = 250;
 
