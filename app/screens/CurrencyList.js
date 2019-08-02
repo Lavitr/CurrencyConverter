@@ -1,29 +1,39 @@
 import React, { Component } from 'react';
-import {
-  FlatList, StatusBar, View,
-} from 'react-native';
+import { FlatList, StatusBar, View } from 'react-native';
+import { connect } from 'react-redux';
 
 import { ListItem, Separator } from '../components/List';
 import currencies from '../data/currencies';
-
-const TEMP_CURRENT_CURRENCY = 'CAD';
+import { changeBaseCurrency, changeQuoteCurrency } from '../actions/currencies';
 
 class CurrencyList extends Component {
-  handlePress = () => {
-    console.log('row press');
+  handlePress = (currency) => {
+    const { navigation, dispatch } = this.props;
+    const { type } = navigation.state.params;
+    if (type === 'base') {
+      dispatch(changeBaseCurrency(currency));
+    } else if (type === 'quote') {
+      dispatch(changeQuoteCurrency(currency));
+    }
+
+    navigation.goBack(null);
   };
 
   render() {
+    const { baseCurrency, quoteCurrency, navigation } = this.props;
+    const comparisonCurrency = navigation.state.params.type === 'quote'
+      ? quoteCurrency
+      : baseCurrency;
     return (
       <View style={{ flex: 1 }}>
-        <StatusBar translucent={false} barStyle="light-content" />
+        <StatusBar translucent={false} barStyle="default" />
         <FlatList
           data={currencies}
           renderItem={({ item }) => (
             <ListItem
               text={item}
-              selected={item === TEMP_CURRENT_CURRENCY}
-              onPress={this.handlePress}
+              selected={item === comparisonCurrency}
+              onPress={() => this.handlePress(item)}
             />
           )}
           keyExtractor={item => item}
@@ -34,4 +44,9 @@ class CurrencyList extends Component {
   }
 }
 
-export default CurrencyList;
+const mapStateToProps = state => ({
+  baseCurrency: state.currencies.baseCurrency,
+  quoteCurrency: state.currencies.quoteCurrency,
+});
+
+export default connect(mapStateToProps)(CurrencyList);
