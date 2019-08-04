@@ -3,6 +3,7 @@ import { createStackNavigator, createAppContainer } from 'react-navigation';
 
 import Home from '../screens/Home';
 import CurrencyList from '../screens/CurrencyList';
+import List from '../screens/ChosenCurrencies';
 
 const AppNavigator = createStackNavigator({
   Home: {
@@ -16,6 +17,12 @@ const AppNavigator = createStackNavigator({
     navigationOptions: ({ navigation }) => ({
       headerTitle: navigation.state.params.title,
     }),
+  },
+  List: {
+    screen: List,
+    navigationOptions: {
+      header: () => null,
+    },
   },
 }, {
   mode: 'modal',

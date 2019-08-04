@@ -6,6 +6,8 @@ import {
   GET_INITIAL_CONVERSION,
   CONVERSION_RESULT,
   CONVERSION_ERROR,
+  ADD_CURRENCY,
+  DELETE_CURRENCY,
 } from '../actions/currencies';
 
 const initialState = {
@@ -14,6 +16,7 @@ const initialState = {
   amount: 100,
   conversions: {},
   error: null,
+  choosenCurrencies: ['USD', 'EUR', 'GBP'],
 };
 
 const setConversions = (state, action) => {
@@ -71,6 +74,16 @@ export default (state = initialState, action) => {
       };
     case CONVERSION_ERROR:
       return { ...state, error: action.error };
+    case ADD_CURRENCY:
+      return {
+        ...state,
+        choosenCurrencies: [...state.choosenCurrencies, action.currency],
+      };
+    case DELETE_CURRENCY:
+      return {
+        ...state,
+        choosenCurrencies: state.choosenCurrencies.filter(i => i !== action.currency),
+      };
     default:
       return state;
   }

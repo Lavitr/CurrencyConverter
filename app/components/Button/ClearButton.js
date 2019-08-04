@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+/* eslint-disable global-require */
 import React from 'react';
 import {
   Text, TouchableOpacity, Image, View,
@@ -14,10 +14,5 @@ const ClearButton = ({ text, onPress }) => (
     </View>
   </TouchableOpacity>
 );
-
-ClearButton.propTypes = {
-  text: PropTypes.string,
-  onPress: PropTypes.func,
-};
 
 export default ClearButton;
